@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             facts: [
                 "<strong>Общее:</strong> 15 лет, мальчик, натурал",
                 "<strong>Типология:</strong> ESFJ, 3w2 sx/sp 379",
-                "<strong>День рождения:</strong> 31 мая, но люблю больше зиму"
+                "<strong>День рождения:</strong> 31 мая"
             ],
             socialLabels: {
                 twitter: "X",
