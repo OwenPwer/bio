@@ -1,210 +1,104 @@
-// =============================================
-// Tab Navigation + Language Switch + Smooth Random Bio
-// =============================================
-
 document.addEventListener('DOMContentLoaded', () => {
-    // ---------- TRANSLATIONS ----------
     const translations = {
         en: {
-            pageTitle: "Owen Yaku Pers | Portfolio",
-            metaDescription: "Information about Owen Yaku Pers",
             name: "Owen Yaku Pers",
-            infoTab: "Facts",
-            factsTab: "Info",
+            subtitle: "15 y.o • ESFJ • Future Entrepreneur?",
+            infoTab: "Info",
             socialTab: "Social",
-            facts: [
-                "<strong>General:</strong> 15 y.o, male, straight",
-                "<strong>Typology:</strong> ESFJ, 3w2 sx/sp 379",
-                "<strong>Birthday:</strong> 31st of May"
-            ],
-            socialLabels: {
-                twitter: "Twitter",
-                discord: "Discord",
-                steam: "Steam",
-                telegram: "Telegram"
-            },
             footer: "© 2026 Owen Yaku Pers. All Rights Reserved.",
-            bioVariants: [
-                "A passionate teenager who wants to become a successful entrepreneur in the future, someone who can achieve success. Or, well, get behind the wheel of a Formula 1 car.",
-                "An ordinary 15-year-old boy",
-                "Sometimes I like unpredictability, but for the most part I prefer clear boundaries",
-                "I think that believing in astrology and zodiac compatibility and incompatibility is nonsense",
-                "Most of the projects I’ve ever started, I quickly gave up on if they didn’t bring me any joy, but if someone asked me to, I wouldn’t give up until the very end"
-            ]
+            aboutText: "I’m 15. I can easily get along with almost anyone; I’m pretty warm and kind (or so everyone else tells me). But at the same time, I’m very hard on myself, I crave others’ approval, and sometimes I even put my own needs aside to help others."
         },
         ru: {
-            pageTitle: "Owen Yaku Pers | Portfolio",
-            metaDescription: "Информация об Оуэне Яку Персе",
             name: "Owen Yaku Pers",
-            infoTab: "Факты",
-            factsTab: "Инфо",
+            subtitle: "15 y.o • ESFJ • Будущий бизнесмен?",
+            infoTab: "Инфо",
             socialTab: "Соцсети",
-            facts: [
-                "<strong>Общее:</strong> мальчик, 15 лет.",
-                "<strong>Типология:</strong> ESFJ, 3w2 sx/sp 379",
-                "<strong>День рождения:</strong> 31 мая"
-            ],
-            socialLabels: {
-                twitter: "X",
-                discord: "Discord",
-                steam: "Steam",
-                telegram: "Telegram"
-            },
             footer: "© 2026 Owen Yaku Pers. Все права защищены.",
-            bioVariants: [
-                "Увлеченный подросток, который хочет стать успешным предпринимателем в будущем, тем, кто сможет добиться успеха. Или, ну, сесть за руль болида Формулы-1.",
-                "Обычный 15-летний парень",
-                "Иногда мне нравится непредсказуемость, но по большей части я предпочитаю четкие границы",
-                "Я считаю, что верить в астрологию и совместимость знаков зодиака — это фигня",
-                "Большинство проектов, которые я начинал, я быстро бросал, если они не приносили мне радости, но если бы кто-то попросил меня, я бы не сдавался до самого конца"
-            ]
+            aboutText: "Мне 15. Я легко могу найти общий язык почти с кем угодно, я довольно открыт и добр (как мне говорят другие). Но при этом я сильно себя критикую, нуждаюсь в одобрении других, иногда даже игнорирую свои потребности ради помощи другим."
         }
     };
 
-    // ---------- GLOBALS ----------
     let currentLang = localStorage.getItem('lang') || 'en';
-    let bioVariants = translations[currentLang].bioVariants;
-    
+
     const tabs = document.querySelectorAll('.card__tab');
-    const tabContents = document.querySelectorAll('.tab-content');
-    const DEFAULT_TAB = 'facts';
-    const bioElement = document.querySelector('#info .card__text');
+    const contentContainer = document.getElementById('content');
     const langToggle = document.getElementById('lang-toggle');
 
-    // ---------- BIO FUNCTIONS ----------
-    function changeBioWithAnimation(newText) {
-        if (!bioElement) return;
-
-        bioElement.style.transition = 'opacity 0.25s ease';
-        bioElement.style.opacity = '0';
-
-        setTimeout(() => {
-            bioElement.textContent = newText;
-            bioElement.style.transition = 'opacity 0.45s ease';
-            bioElement.style.opacity = '1';
-        }, 250);
-    }
-
-    function getRandomBio() {
-        const randomIndex = Math.floor(Math.random() * bioVariants.length);
-        return bioVariants[randomIndex];
-    }
-
-    // ---------- TAB LOGIC ----------
     function activateTab(tabId) {
+        const currentHeight = contentContainer.offsetHeight;
+        contentContainer.style.height = `${currentHeight}px`;
+
         tabs.forEach(tab => tab.classList.remove('active'));
+        document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
 
-        const activeTab = document.querySelector(`.card__tab[data-tab="${tabId}"]`);
-        if (activeTab) activeTab.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        const target = document.getElementById(tabId);
+        target.classList.add('active');
 
-        tabContents.forEach(content => content.classList.remove('active'));
-
-        const targetContent = document.getElementById(tabId);
-        if (targetContent) {
-            if (tabId === 'info' && bioElement) {
-                changeBioWithAnimation(getRandomBio());
-            }
-
-            setTimeout(() => {
-                targetContent.classList.add('active');
-            }, 10);
-        }
-    }
-
-    function initActiveTab() {
-        const savedTab = localStorage.getItem('activeTab') || DEFAULT_TAB;
-        activateTab(savedTab);
-    }
-
-    function setupTabListeners() {
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.dataset.tab;
-                if (tabId) {
-                    activateTab(tabId);
-                    localStorage.setItem('activeTab', tabId);
-                }
-            });
+        requestAnimationFrame(() => {
+            const newHeight = target.scrollHeight + 60;
+            contentContainer.style.height = `${newHeight}px`;
         });
+
+        setTimeout(() => contentContainer.style.height = 'auto', 700);
     }
 
-    // ---------- LANGUAGE TRANSLATION ----------
     function translatePage(lang) {
-        document.documentElement.lang = lang;
         const t = translations[lang];
+        document.documentElement.lang = lang;
 
-        // page meta
-        document.title = t.pageTitle;
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', t.metaDescription);
-
-        // main texts
-        const nameEl = document.querySelector('[data-i18n="name"]');
-        if (nameEl) nameEl.textContent = t.name;
-
-        const infoTabEl = document.querySelector('[data-i18n="infoTab"]');
-        if (infoTabEl) infoTabEl.textContent = t.infoTab;
-
-        const factsTabEl = document.querySelector('[data-i18n="factsTab"]');
-        if (factsTabEl) factsTabEl.textContent = t.factsTab;
-
-        const socialTabEl = document.querySelector('[data-i18n="socialTab"]');
-        if (socialTabEl) socialTabEl.textContent = t.socialTab;
-
-        // facts list
-        const factsList = document.getElementById('facts-list');
-        if (factsList) {
-            factsList.innerHTML = t.facts.map(fact => `<li>${fact}</li>`).join('');
+        // Плавная смена текста в about
+        const aboutTextEl = document.getElementById('about-text');
+        if (aboutTextEl) {
+            aboutTextEl.style.opacity = '0';
+            setTimeout(() => {
+                aboutTextEl.textContent = t.aboutText;
+                aboutTextEl.style.opacity = '1';
+            }, 220);
         }
 
-        // social labels
-        document.querySelectorAll('[data-i18n^="social."]').forEach(el => {
-            const key = el.getAttribute('data-i18n'); // e.g., "social.twitter"
-            const socialKey = key.split('.')[1];
-            if (t.socialLabels[socialKey]) {
-                el.textContent = t.socialLabels[socialKey];
-            }
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key]) el.textContent = t[key];
         });
 
-        // footer
-        const footerEl = document.querySelector('[data-i18n="footer"]');
-        if (footerEl) footerEl.textContent = t.footer;
+        langToggle.textContent = lang === 'en' ? 'RU' : 'EN';
+    }
 
-        // bio variants array
-        bioVariants = t.bioVariants;
-
-        // lang toggle button text
-        if (langToggle) {
-            langToggle.textContent = lang === 'en' ? 'RU' : 'EN';
-            langToggle.setAttribute('aria-label', `Switch to ${lang === 'en' ? 'Russian' : 'English'}`);
+    function createParticles() {
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 38; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            const size = Math.random() * 4.5 + 2.8;
+            p.style.width = `${size}px`;
+            p.style.height = `${size}px`;
+            p.style.left = `${Math.random() * 100}vw`;
+            p.style.animationDuration = `${Math.random() * 22 + 15}s`;
+            p.style.animationDelay = `-${Math.random() * 25}s`;
+            container.appendChild(p);
         }
     }
 
-    // ---------- LANGUAGE TOGGLE HANDLER ----------
-    if (langToggle) {
-        langToggle.addEventListener('click', () => {
-            currentLang = currentLang === 'en' ? 'ru' : 'en';
-            localStorage.setItem('lang', currentLang);
-            translatePage(currentLang);
-
-            // re‑randomize bio if info tab is active
-            const infoTab = document.getElementById('info');
-            if (infoTab && infoTab.classList.contains('active') && bioElement) {
-                changeBioWithAnimation(getRandomBio());
-            }
-        });
-    }
-
-    // ---------- INIT ----------
-    function init() {
-        // 1. Apply the stored / default language
+    langToggle.addEventListener('click', () => {
+        currentLang = currentLang === 'en' ? 'ru' : 'en';
+        localStorage.setItem('lang', currentLang);
         translatePage(currentLang);
+    });
 
-        // 2. Restore last active tab (this will also show a random bio if Info is active)
-        initActiveTab();
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabId = tab.dataset.tab;
+            activateTab(tabId);
+            localStorage.setItem('activeTab', tabId);
+        });
+    });
 
-        // 3. Attach tab click listeners
-        setupTabListeners();
+    function init() {
+        translatePage(currentLang);
+        const savedTab = localStorage.getItem('activeTab') || 'info';
+        activateTab(savedTab);
+        createParticles();
     }
 
     init();
