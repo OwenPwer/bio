@@ -2,84 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="img/icons/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/icons/favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&family=Racing+Sans+One&display=swap" rel="stylesheet">
     <title>Owen Yaku Pers | Portfolio</title>
-    <meta name="description" content="Information about Owen Yaku Pers">
+    <meta name="description" content="Owen Yaku Pers — 15 y.o. Future Entrepreneur & F1 Dreamer">
 </head>
 <body>
-    <!-- Language toggle button -->
+    <div class="particles" id="particles"></div>
+
     <button id="lang-toggle" class="lang-switch" aria-label="Switch to Russian">RU</button>
 
     <main class="card">
-        
-        <!-- Hero Avatar -->
         <div class="card__hero-avatar-wrapper">
-            <img 
-                src="img/avatar.jpg" 
-                alt="Owen Yaku Pers profile picture" 
-                class="card__avatar">
+            <div class="avatar-glow"></div>
+            <img src="img/avatar.jpg" alt="Owen Yaku Pers" class="card__avatar">
         </div>
-        
-        <!-- Name -->
-        <h1 class="card__name" data-i18n="name">Owen Yaku Pers</h1>
 
-        <!-- Navigation Tabs -->
-        <nav class="card__tabs" aria-label="Profile sections">
-            <button class="card__tab active" data-tab="info" data-i18n="infoTab">Facts</button>
-            <button class="card__tab" data-tab="facts" data-i18n="factsTab">Info</button>
-            <button class="card__tab" data-tab="social" data-i18n="socialTab">Social</button>
+        <h1 class="card__name" data-i18n="name">Owen Yaku Pers</h1>
+        <p class="card__subtitle" data-i18n="subtitle">15 • ESFJ • Future Entrepreneur</p>
+
+        <nav class="card__tabs">
+            <ul>
+                <li><button class="card__tab active" data-tab="info" data-i18n="infoTab">Info</button></li>
+                <li><button class="card__tab" data-tab="social" data-i18n="socialTab">Social</button></li>
+            </ul>
         </nav>
 
-        <!-- Content Container -->
         <div class="card__content" id="content">
-
-            <!-- Info Tab -->
             <div id="info" class="tab-content active">
-                <p class="card__text"></p>
+                <div class="about-text" id="about-text"></div>
             </div>
 
-            <!-- Facts Tab -->
-            <div id="facts" class="tab-content">
-                <ul class="facts-list" id="facts-list">
-                    <li><strong>General:</strong> 15 y.o, male, straight</li>
-                    <li><strong>Typology:</strong> ESFJ, 3w2 sx/sp 379</li>
-                    <li><strong>Birthday:</strong> 31st of May</li> <!-- xd -->
-                </ul>
-            </div>
-
-            <!-- Social -->
             <div id="social" class="tab-content">
-                <div class="social-links">
-                    <a href="https://x.com/OwenPersik" class="social-icon" aria-label="Twitter" target="_blank">
+                <div class="social-grid">
+                    <a href="https://x.com/OwenPersik" class="social-tile" target="_blank">
                         <i class="fa-brands fa-x-twitter"></i>
-                        <span class="social-label" data-i18n="social.twitter">Twitter</span>
+                        <span>@OwenPersik</span>
                     </a>
-                    <a href="https://discord.com/users/971809780475756584" class="social-icon" aria-label="Discord" target="_blank">
+                    <a href="https://discord.com/users/971809780475756584" class="social-tile" target="_blank">
                         <i class="fa-brands fa-discord"></i>
-                        <span class="social-label" data-i18n="social.discord">Discord</span>
+                        <span>o.pers</span>
                     </a>
-                    <a href="https://steamcommunity.com/id/owenpers/" class="social-icon" aria-label="Steam" target="_blank">
+                    <a href="https://steamcommunity.com/id/owenpers/" class="social-tile" target="_blank">
                         <i class="fa-brands fa-steam"></i>
-                        <span class="social-label" data-i18n="social.steam">Steam</span>
+                        <span>сryoffear雨</span>
                     </a>
-                    <a href="https://t.me/owpers" class="social-icon" aria-label="Telegram" target="_blank">
+                    <a href="https://t.me/owpers" class="social-tile" target="_blank">
                         <i class="fa-brands fa-telegram"></i>
-                        <span class="social-label" data-i18n="social.telegram">Telegram</span>
+                        <span>@owpers</span>
                     </a>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <p class="footer__copyright" data-i18n="footer">© 2026 Owen Yaku Pers. All Rights Reserved.</p>
     </footer>
 
-    <!-- JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
