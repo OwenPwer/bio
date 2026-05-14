@@ -6,152 +6,136 @@
 
 body {
     min-height: 100vh;
-    background: linear-gradient(135deg, #BD0000 0%, #5F2324 100%);
-    font-family: Verdana, Geneva, sans-serif;
+    background: linear-gradient(135deg, #1A1715 0%, #5F2423 50%, #BD0000 100%);
+    font-family: 'Inter', system-ui, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden;
     padding: 20px 0;
 }
 
-/* ====================== LANGUAGE SWITCH ====================== */
-.lang-switch {
+/* Particles */
+.particles {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(8px);
-    border: 1px solid #e2edf2;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(247, 211, 29, 0.75);
     border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: #1e2a3a;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    animation: floatParticle linear infinite;
+    box-shadow: 0 0 12px #F7D31D;
 }
 
-.lang-switch:hover {
-    background: #ffffff;
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* ====================== CARD ====================== */
+/* Card */
 .card {
-    width: calc(100% - 40px);
+    width: 100%;
     max-width: 480px;
-    background: rgba(255, 255, 255, 0.97);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(24px);
     border-radius: 32px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.18),
-                0 0 0 1px rgba(255, 255, 255, 0.15);
-    text-align: center;
+    box-shadow: 0 40px 90px rgba(26, 23, 21, 0.45);
     overflow: hidden;
-    backdrop-filter: blur(8px);
-    --avatar-size: 305px;
+    position: relative;
+    z-index: 1;
 }
 
-/* ====================== AVATAR ====================== */
+/* Avatar */
 .card__hero-avatar-wrapper {
-    width: 100%;
-    padding-top: 48px;
-    padding-bottom: 24px;
+    position: relative;
+    padding: 48px 0 20px;
     display: flex;
     justify-content: center;
-    position: relative;
+}
+
+.avatar-glow {
+    position: absolute;
+    width: 255px;
+    height: 255px;
+    background: radial-gradient(circle, rgba(246, 0, 0, 0.20) 0%, rgba(247, 211, 29, 0.08) 70%, transparent);
+    border-radius: 50%;
+    filter: blur(22px);
 }
 
 .card__avatar {
-    width: var(--avatar-size);
-    height: var(--avatar-size);
+    width: 245px;
+    height: 245px;
     object-fit: cover;
-    border-radius: 28px;
-    border: 8px solid rgba(255, 255, 255, 0.75);
-    box-shadow: 
-        0 8px 32px -8px rgba(0, 0, 0, 0.25),
-        inset 0 2px 6px rgba(255, 255, 255, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.9) inset;
-    backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.15);
-    transition: all 0.3s ease;
+    border-radius: 26px;
+    border: 8px solid #fff;
+    box-shadow: 0 22px 45px rgba(26, 23, 21, 0.35);
+    transition: transform 0.4s ease;
 }
 
-/* ====================== TYPOGRAPHY ====================== */
+/* Typography */
 .card__name {
-    font-size: 2.05rem;
-    font-weight: 700;
-    color: #1e2a3a;
-    margin: 24px 0 8px;
-    letter-spacing: -0.5px;
-    padding: 0 28px;
-    line-height: 1.1;
+    font-family: 'Racing Sans One', sans-serif;
+    font-size: 2.55rem;
+    letter-spacing: -1.4px;
+    text-align: center;
+    margin: 12px 0 6px;
+    color: #1A1715;
 }
 
-.card__text {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: #435a75;
-    text-align: justify;
-    min-height: 120px;
-    transition: opacity 0.4s ease;
+.card__subtitle {
+    text-align: center;
+    color: #5F2423;
+    font-size: 1.07rem;
+    margin-bottom: 24px;
+    font-weight: 500;
 }
 
-/* ====================== TABS ====================== */
-.card__tabs {
+/* Tabs */
+.card__tabs ul {
     display: flex;
     justify-content: center;
-    gap: 32px;
-    margin-bottom: 32px;
-    border-bottom: 1px solid #e2edf2;
-    padding: 0 28px;
+    gap: 48px;
+    list-style: none;
+    padding: 0 20px;
+    margin: 0;
+    border-bottom: 2px solid #eee;
 }
 
 .card__tab {
     background: none;
     border: none;
+    padding: 14px 0 12px;
     font-size: 1.05rem;
     font-weight: 600;
-    color: #64748b;
-    padding: 12px 8px 16px;
+    color: #5F2423;
     cursor: pointer;
     position: relative;
-    transition: color 0.25s ease;
-}
-
-.card__tab:hover {
-    color: #1e2a3a;
+    transition: all 0.4s ease;
 }
 
 .card__tab.active {
-    color: #1e2a3a;
+    color: #1A1715;
 }
 
 .card__tab.active::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(to right, #7FFFD4, #4db8c7);
-    border-radius: 3px;
-    transform: scaleX(1);
-    transition: transform 0.3s ease;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3.5px;
+    background: linear-gradient(to right, #F60000, #F7D31D);
+    border-radius: 4px;
 }
 
-/* ====================== CONTENT + ANIMATION ====================== */
+/* Content */
 .card__content {
-    min-height: 200px;
-    padding: 0 28px 40px;
+    padding: 28px 32px 40px;
     position: relative;
     overflow: hidden;
+    min-height: 240px;
+    transition: height 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tab-content {
@@ -160,204 +144,179 @@ body {
     left: 0;
     top: 0;
     opacity: 0;
-    transform: translateY(25px) scale(0.98);
-    transition: all 0.55s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transform: translateY(25px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
 }
 
 .tab-content.active {
     position: relative;
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
     pointer-events: auto;
 }
 
-/* Внутренняя анимация */
-.card__text,
-.facts-list,
-.social-links {
-    animation: fadeInContent 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+/* Info Text */
+.about-text {
+    font-size: 1.08rem;
+    line-height: 1.82;
+    color: #374151;
+    text-align: justify;
 }
 
-@keyframes fadeInContent {
-    from {
-        opacity: 0;
-        transform: translateY(18px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Social Grid */
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 10px 0;
 }
 
-/* ====================== FACTS ====================== */
-.facts-list {
-    text-align: left;
-    max-width: 320px;
-    margin: 0 auto;
-    font-size: 1.02rem;
-    line-height: 1.8;
-    color: #435a75;
-    list-style-type: circle;
-}
-
-.facts-list li {
-    margin-bottom: 8px;
-}
-
-/* ====================== SOCIAL ICONS WITH TOOLTIP ====================== */
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    padding-top: 20px;
-    flex-wrap: wrap;
-}
-
-.social-icon {
+.social-tile {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 74px;
-    height: 74px;
-    /* Новый фон – тот же градиент, что и у body */
-    background: linear-gradient(135deg, #BD0000 0%, #5F2324 100%);
-    color: #ffffff;               /* белый цвет иконок */
-    font-size: 32px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    transition: all 0.35s ease;
+    background: #f8f9fa;
+    padding: 20px 12px;
+    border-radius: 18px;
     text-decoration: none;
-    position: relative;
-    padding-top: 6px;
+    color: inherit;
+    transition: all 0.4s ease;
+    border: 2px solid transparent;
+    min-height: 110px;
 }
 
-/* При наведении */
-.social-icon:hover {
-    background: linear-gradient(135deg, #d42020 0%, #7a2d2e 100%); /* немного светлее */
-    border-color: #ffffff;
-    transform: translateY(-8px) scale(1.1);
-    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.25);
-    color: #ffffff;
+.social-tile:hover {
+    background: white;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(246, 0, 0, 0.15);
+    border-color: #F60000;
 }
 
-/* Tooltip */
-.social-label {
-    position: absolute;
-    bottom: -42px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    font-size: 0.84rem;
-    font-weight: 600;
-    color: #1e2a3a;
-    background: #ffffff;
-    padding: 6px 14px;
-    border-radius: 9999px;
-    white-space: nowrap;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    pointer-events: none;
-    z-index: 5;
+.social-tile i {
+    font-size: 34px;
+    color: #F60000;
+    margin-bottom: 10px;
 }
 
-.social-label::after {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid #ffffff;
-    filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.08));
+.social-tile span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1A1715;
+    text-align: center;
 }
 
-.social-icon:hover .social-label {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    bottom: -46px;
+/* Particles Animation */
+@keyframes floatParticle {
+    0% { transform: translateY(100vh) scale(0.5); opacity: 0.6; }
+    100% { transform: translateY(-150px) scale(1.3); opacity: 0; }
 }
 
-/* Анимация появления иконок */
-.social-icon {
-    opacity: 0;
-    transform: translateY(20px) scale(0.9);
-    animation: fadeInContent 0.55s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+/* Language Switch */
+.lang-switch {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 100;
+    width: 52px;
+    height: 52px;
+    background: rgba(255,255,255,0.95);
+    border: 2px solid #BD0000;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #1A1715;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.social-icon:nth-child(1) { animation-delay: 0.1s; }
-.social-icon:nth-child(2) { animation-delay: 0.2s; }
-.social-icon:nth-child(3) { animation-delay: 0.3s; }
-.social-icon:nth-child(4) { animation-delay: 0.4s; }
+.lang-switch:hover { transform: scale(1.1); }
 
-/* ====================== FOOTER ====================== */
 .footer {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    right: 22px;
     z-index: 10;
 }
 
 .footer__copyright {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     color: rgba(255, 255, 255, 0.85);
-    font-weight: 500;
-    text-align: right;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* ====================== RESPONSIVE ====================== */
 @media (max-width: 480px) {
     .card {
-        max-width: 460px;
+        max-width: 92%;
         border-radius: 28px;
-        --avatar-size: 175px;
+        margin: 10px 0;
     }
-    
+
     .card__avatar {
-        border-radius: 24px;
+        width: 200px;
+        height: 200px;
     }
-    
+
+    .avatar-glow {
+        width: 210px;
+        height: 210px;
+    }
+
     .card__name {
-        font-size: 1.8rem;
+        font-size: 2.1rem;
     }
 
-    .card__tabs {
-        gap: 24px;
-        padding: 0 20px;
+    .card__subtitle {
+        font-size: 0.98rem;
     }
 
-    .social-links {
-        gap: 20px;
+    .card__tabs ul {
+        gap: 32px;
     }
-    
-    .social-icon {
-        width: 62px;
-        height: 62px;
-        font-size: 26px;
+
+    .card__tab {
+        font-size: 1rem;
+        padding: 12px 0 10px;
+    }
+
+    .card__content {
+        padding: 24px 24px 32px;
+    }
+
+    .social-grid {
+        gap: 12px;
+    }
+
+    .social-tile {
+        padding: 16px 10px;
+        min-height: 100px;
+    }
+
+    .social-tile i {
+        font-size: 30px;
+    }
+
+    .lang-switch {
+        top: 16px;
+        right: 16px;
+        width: 46px;
+        height: 46px;
+        font-size: 0.95rem;
     }
 
     .footer {
         bottom: 16px;
         right: 16px;
     }
-
-    .lang-switch {
-        width: 42px;
-        height: 42px;
-        top: 16px;
-        right: 16px;
-        font-size: 0.8rem;
-    }
 }
 
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        transition: none !important;
-        animation: none !important;
+@media (max-width: 360px) {
+    .card__name {
+        font-size: 1.95rem;
+    }
+    
+    .social-tile span {
+        font-size: 0.9rem;
     }
 }
