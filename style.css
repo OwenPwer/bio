@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1A1715 0%, #5F2423 50%, #BD0000 100%);
+    font-family: 'Inter', system-ui, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+/* Particles */
+.particles {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(247, 211, 29, 0.75);
+    border-radius: 50%;
+    animation: floatParticle linear infinite;
+    box-shadow: 0 0 12px #F7D31D;
+}
+
+/* Card */
+.card {
+    width: 100%;
+    max-width: 480px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(24px);
+    border-radius: 32px;
+    box-shadow: 0 40px 90px rgba(26, 23, 21, 0.45);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+/* Avatar */
+.card__hero-avatar-wrapper {
+    position: relative;
+    padding: 48px 0 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.avatar-glow {
+    position: absolute;
+    width: 255px;
+    height: 255px;
+    background: radial-gradient(circle, rgba(246, 0, 0, 0.20) 0%, rgba(247, 211, 29, 0.08) 70%, transparent);
+    border-radius: 50%;
+    filter: blur(22px);
+}
+
+.card__avatar {
+    width: 245px;
+    height: 245px;
+    object-fit: cover;
+    border-radius: 26px;
+    border: 8px solid #fff;
+    box-shadow: 0 22px 45px rgba(26, 23, 21, 0.35);
+    transition: transform 0.4s ease;
+}
+
+/* Typography */
+.card__name {
+    font-family: 'Racing Sans One', sans-serif;
+    font-size: 2.55rem;
+    letter-spacing: -1.4px;
+    text-align: center;
+    margin: 12px 0 6px;
+    color: #1A1715;
+}
+
+.card__subtitle {
+    text-align: center;
+    color: #5F2423;
+    font-size: 1.07rem;
+    margin-bottom: 24px;
+    font-weight: 500;
+}
+
+/* Tabs */
+.card__tabs ul {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    list-style: none;
+    padding: 0 20px;
+    margin: 0;
+    border-bottom: 2px solid #eee;
+}
+
+.card__tab {
+    background: none;
+    border: none;
+    padding: 14px 0 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #5F2423;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.4s ease;
+}
+
+.card__tab.active {
+    color: #1A1715;
+}
+
+.card__tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3.5px;
+    background: linear-gradient(to right, #F60000, #F7D31D);
+    border-radius: 4px;
+}
+
+/* Content */
+.card__content {
+    padding: 28px 32px 40px;
+    position: relative;
+    overflow: hidden;
+    min-height: 240px;
+    transition: height 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-content {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.tab-content.active {
+    position: relative;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Info Text */
+.about-text {
+    font-size: 1.08rem;
+    line-height: 1.82;
+    color: #374151;
+    text-align: justify;
+}
+
+/* Social Grid */
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 10px 0;
+}
+
+.social-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    padding: 20px 12px;
+    border-radius: 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.4s ease;
+    border: 2px solid transparent;
+    min-height: 110px;
+}
+
+.social-tile:hover {
+    background: white;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(246, 0, 0, 0.15);
+    border-color: #F60000;
+}
+
+.social-tile i {
+    font-size: 34px;
+    color: #F60000;
+    margin-bottom: 10px;
+}
+
+.social-tile span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1A1715;
+    text-align: center;
+}
+
+/* Particles Animation */
+@keyframes floatParticle {
+    0% { transform: translateY(100vh) scale(0.5); opacity: 0.6; }
+    100% { transform: translateY(-150px) scale(1.3); opacity: 0; }
+}
+
+/* Language Switch */
+.lang-switch {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 100;
+    width: 52px;
+    height: 52px;
+    background: rgba(255,255,255,0.95);
+    border: 2px solid #BD0000;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #1A1715;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lang-switch:hover { transform: scale(1.1); }
+
+.footer {
+    position: fixed;
+    bottom: 20px;
+    right: 22px;
+    z-index: 10;
+}
+
+.footer__copyright {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ====================== RESPONSIVE ====================== */
+@media (max-width: 480px) {
+    .card {
+        max-width: 92%;
+        border-radius: 28px;
+        margin: 10px 0;
+    }
+
+    .card__avatar {
+        width: 200px;
+        height: 200px;
+    }
+
+    .avatar-glow {
+        width: 210px;
+        height: 210px;
+    }
+
+    .card__name {
+        font-size: 2.1rem;
+    }
+
+    .card__subtitle {
+        font-size: 0.98rem;
+    }
+
+    .card__tabs ul {
+        gap: 32px;
+    }
+
+    .card__tab {
+        font-size: 1rem;
+        padding: 12px 0 10px;
+    }
+
+    .card__content {
+        padding: 24px 24px 32px;
+    }
+
+    .social-grid {
+        gap: 12px;
+    }
+
+    .social-tile {
+        padding: 16px 10px;
+        min-height: 100px;
+    }
+
+    .social-tile i {
+        font-size: 30px;
+    }
+
+    .lang-switch {
+        top: 16px;
+        right: 16px;
+        width: 46px;
+        height: 46px;
+        font-size: 0.95rem;
+    }
+
+    .footer {
+        bottom: 16px;
+        right: 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    .card__name {
+        font-size: 1.95rem;
+    }
+    
+    .social-tile span {
+        font-size: 0.9rem;
+    }
+}
