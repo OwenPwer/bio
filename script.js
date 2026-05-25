@@ -1,105 +1,113 @@
+/* ============ TRANSLATIONS OBJECT ============ */
 document.addEventListener('DOMContentLoaded', () => {
     const translations = {
         en: {
-            name: "Owen Yaku Pers",
-            subtitle: "15 y.o • ESFJ • Future Entrepreneur?",
-            infoTab: "Info",
-            socialTab: "Social",
-            footer: "© 2026 Owen Yaku Pers. All Rights Reserved.",
-            aboutText: "I’m 15. I can easily get along with almost anyone; I’m pretty warm and kind (or so everyone else tells me). But at the same time, I’m very hard on myself, I crave others’ approval, and sometimes I even put my own needs aside to help others."
-        },
-        ru: {
-            name: "Owen Yaku Pers",
-            subtitle: "15 y.o • ESFJ • Будущий бизнесмен?",
-            infoTab: "Инфо",
-            socialTab: "Соцсети",
-            footer: "© 2026 Owen Yaku Pers. Все права защищены.",
-            aboutText: "Мне 15. Я легко могу найти общий язык почти с кем угодно, я довольно открыт и добр (как мне говорят другие). Но при этом я сильно себя критикую, нуждаюсь в одобрении других, иногда даже игнорирую свои потребности ради помощи другим."
+            about: "I'm 15. I get along with people easily - I'm friendly and try to be kind. But I'm also pretty hard on myself. It would be nice to create a successful business.",
+            footer: "© 2026 Owen Yaku Pers"
         }
     };
 
-    let currentLang = localStorage.getItem('lang') || 'en';
+    /* ============ DOM ELEMENTS ============ */
+    const els = {
+        aboutText: document.getElementById('about-text'),
+        footerText: document.getElementById('footer-text'),
+        statusBadge: document.getElementById('status-badge'),
+        magicBtn: document.getElementById('magic-btn'),
+        loader: document.getElementById('loader')
+    };
 
-    const tabs = document.querySelectorAll('.card__tab');
-    const contentContainer = document.getElementById('content');
-    const langToggle = document.getElementById('lang-toggle');
-
-    function activateTab(tabId) {
-        const currentHeight = contentContainer.offsetHeight;
-        contentContainer.style.height = `${currentHeight}px`;
-
-        tabs.forEach(tab => tab.classList.remove('active'));
-        document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
-
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        const target = document.getElementById(tabId);
-        target.classList.add('active');
-
-        requestAnimationFrame(() => {
-            const newHeight = target.scrollHeight + 60;
-            contentContainer.style.height = `${newHeight}px`;
-        });
-
-        setTimeout(() => contentContainer.style.height = 'auto', 700);
+    /* ============ TRANSLATION FUNCTION ============ */
+    function translatePage() {
+        const t = translations.en;
+        els.aboutText.textContent = t.about;
+        els.footerText.textContent = t.footer;
     }
 
-    function translatePage(lang) {
-        const t = translations[lang];
-        document.documentElement.lang = lang;
-
-        // Плавная смена текста в about
-        const aboutTextEl = document.getElementById('about-text');
-        if (aboutTextEl) {
-            aboutTextEl.style.opacity = '0';
+    /* ============ MAGIC BUTTON EFFECT ============ */
+    function makeMagic() {
+        const colors = ['#E10600', '#F7D31D', '#FFCC80'];
+        for (let i = 0; i < 70; i++) {
             setTimeout(() => {
-                aboutTextEl.textContent = t.aboutText;
-                aboutTextEl.style.opacity = '1';
-            }, 220);
+                const p = document.createElement('div');
+                p.style.position = 'fixed';
+                p.style.zIndex = '100';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.bottom = '-40px';
+                p.style.width = Math.random() * 8 + 5 + 'px';
+                p.style.height = p.style.width;
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.borderRadius = '50%';
+                p.style.boxShadow = `0 0 18px ${p.style.background}`;
+                p.style.opacity = '0.85';
+                document.body.appendChild(p);
+
+                let velocity = 11 + Math.random() * 9;
+                const animate = () => {
+                    p.style.bottom = (parseFloat(p.style.bottom) + velocity) + 'px';
+                    velocity -= 0.32;
+                    if (velocity > 0) requestAnimationFrame(animate);
+                    else p.remove();
+                };
+                animate();
+            }, i * 4.5);
         }
-
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (t[key]) el.textContent = t[key];
-        });
-
-        langToggle.textContent = lang === 'en' ? 'RU' : 'EN';
     }
 
+    /* ============ FETCH DISCORD STATUS ============ */
+    async function fetchDiscordStatus() {
+        try {
+            const res = await fetch('https://api.lanyard.rest/v1/users/971809780475756584');
+            const { data } = await res.json();
+            let color = 'bg-gray-500', text = 'OFFLINE';
+            if (data.discord_status === 'online') { color = 'bg-emerald-500'; text = 'ONLINE'; }
+            else if (data.discord_status === 'idle') { color = 'bg-yellow-500'; text = 'IDLE'; }
+            else if (data.discord_status === 'dnd') { color = 'bg-red-500'; text = 'DND'; }
+
+            els.statusBadge.innerHTML = `
+                <div class="w-3 h-3 ${color} rounded-full animate-pulse"></div>
+                <span class="uppercase tracking-widest text-xs">${text}</span>
+            `;
+        } catch (e) {
+            els.statusBadge.innerHTML = `<div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div><span class="uppercase tracking-widest text-xs">ONLINE</span>`;
+        }
+    }
+
+    /* ============ CREATE FLOATING PARTICLES ============ */
     function createParticles() {
         const container = document.getElementById('particles');
-        for (let i = 0; i < 38; i++) {
+        for (let i = 0; i < 55; i++) {
             const p = document.createElement('div');
-            p.classList.add('particle');
-            const size = Math.random() * 4.5 + 2.8;
+            p.className = 'particle';
+            const size = Math.random() * 5 + 2.5;
             p.style.width = `${size}px`;
             p.style.height = `${size}px`;
             p.style.left = `${Math.random() * 100}vw`;
-            p.style.animationDuration = `${Math.random() * 22 + 15}s`;
-            p.style.animationDelay = `-${Math.random() * 25}s`;
+            p.style.animation = `floatParticle ${Math.random() * 26 + 17}s linear infinite`;
+            p.style.animationDelay = `-${Math.random() * 28}s`;
             container.appendChild(p);
         }
     }
 
-    langToggle.addEventListener('click', () => {
-        currentLang = currentLang === 'en' ? 'ru' : 'en';
-        localStorage.setItem('lang', currentLang);
-        translatePage(currentLang);
-    });
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const tabId = tab.dataset.tab;
-            activateTab(tabId);
-            localStorage.setItem('activeTab', tabId);
-        });
-    });
-
-    function init() {
-        translatePage(currentLang);
-        const savedTab = localStorage.getItem('activeTab') || 'info';
-        activateTab(savedTab);
-        createParticles();
+    /* ============ HIDE LOADER ============ */
+    function hideLoader() {
+        els.loader.style.opacity = '0';
+        setTimeout(() => els.loader.style.display = 'none', 900);
     }
 
-    init();
+    /* ============ INITIALIZATION & EVENT LISTENERS ============ */
+    translatePage();
+    createParticles();
+    fetchDiscordStatus();
+    hideLoader();
+
+    els.magicBtn.addEventListener('click', makeMagic);
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes floatParticle {
+            0% { transform: translateY(110vh) scale(0.6); }
+            100% { transform: translateY(-90px) scale(1.4); }
+        }
+    `;
+    document.head.appendChild(style);
 });

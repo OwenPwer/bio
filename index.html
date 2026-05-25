@@ -3,66 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="img/icons/favicon.ico">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&family=Racing+Sans+One&display=swap" rel="stylesheet">
-    <title>Owen Yaku Pers | Portfolio</title>
-    <meta name="description" content="Owen Yaku Pers — 15 y.o. Future Entrepreneur & F1 Dreamer">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Owen Yaku Pers | Future Entrepreneur</title>
 </head>
 <body>
+
+    <!-- ============ LOADER ============ -->
+    <div id="loader" class="loader">
+        <div class="loader__content">
+            <div class="title-font text-3xl tracking-widest">OWEN YAKU PERS</div>
+            <div class="loader__line"></div>
+            <p class="loader__text">INITIALIZING</p>
+        </div>
+    </div>
+
+    <!-- ============ PARTICLES BACKGROUND ============ -->
     <div class="particles" id="particles"></div>
 
-    <button id="lang-toggle" class="lang-switch" aria-label="Switch to Russian">RU</button>
-
-    <main class="card">
-        <div class="card__hero-avatar-wrapper">
-            <div class="avatar-glow"></div>
-            <img src="img/avatar.jpg" alt="Owen Yaku Pers" class="card__avatar">
-        </div>
-
-        <h1 class="card__name" data-i18n="name">Owen Yaku Pers</h1>
-        <p class="card__subtitle" data-i18n="subtitle">15 • ESFJ • Future Entrepreneur</p>
-
-        <nav class="card__tabs">
-            <ul>
-                <li><button class="card__tab active" data-tab="info" data-i18n="infoTab">Info</button></li>
-                <li><button class="card__tab" data-tab="social" data-i18n="socialTab">Social</button></li>
-            </ul>
-        </nav>
-
-        <div class="card__content" id="content">
-            <div id="info" class="tab-content active">
-                <div class="about-text" id="about-text"></div>
+    <!-- ============ MAIN CARD CONTAINER ============ -->
+    <main class="main">
+        <div id="main-card" class="card">
+            
+            <!-- ============ HERO SECTION (AVATAR & STATUS) ============ -->
+            <div class="card__hero">
+                <div class="avatar-wrapper">
+                    <img src="img/avatar.jpg" alt="Owen Yaku Pers" class="avatar">
+                    <div id="status-badge" class="status-badge"></div>
+                </div>
+                <h1 class="card__name">Owen Yaku Pers</h1>
+                <p class="card__subtitle">15 • ESFJ • FUTURE BUILDER</p>
             </div>
 
-            <div id="social" class="tab-content">
+            <!-- ============ ABOUT SECTION ============ -->
+            <div class="card__about">
+                <p id="about-text" class="about-text"></p>
+            </div>
+
+            <!-- ============ SOCIAL LINKS SECTION ============ -->
+            <div class="card__social">
+                <div class="section-title">STAY CONNECTED</div>
                 <div class="social-grid">
-                    <a href="https://x.com/OwenPersik" class="social-tile" target="_blank">
+                    <a href="https://x.com/OwenPersik" target="_blank" class="social-tile">
                         <i class="fa-brands fa-x-twitter"></i>
-                        <span>@OwenPersik</span>
+                        <div>
+                            <div class="social-tile__name">@OwenPersik</div>
+                            <div class="social-tile__platform">X</div>
+                        </div>
                     </a>
-                    <a href="https://discord.com/users/971809780475756584" class="social-tile" target="_blank">
+                    <a href="https://discord.com/users/971809780475756584" target="_blank" class="social-tile">
                         <i class="fa-brands fa-discord"></i>
-                        <span>o.pers</span>
-                    </a>
-                    <a href="https://steamcommunity.com/id/owenpers/" class="social-tile" target="_blank">
-                        <i class="fa-brands fa-steam"></i>
-                        <span>сryoffear雨</span>
-                    </a>
-                    <a href="https://t.me/owpers" class="social-tile" target="_blank">
-                        <i class="fa-brands fa-telegram"></i>
-                        <span>@owpers</span>
+                        <div>
+                            <div class="social-tile__name">o.pers</div>
+                            <div class="social-tile__platform">Discord</div>
+                        </div>
                     </a>
                 </div>
             </div>
+
+            <!-- ============ FOOTER SECTION ============ -->
+            <footer class="card__footer">
+                <div class="footer__left">
+                    <span id="footer-text" class="footer__copyright"></span>
+                    <span class="footer__separator">•</span>
+                    <a href="privacy.html" class="footer__link">Privacy</a>
+                </div>
+                <button id="magic-btn" class="magic-button">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>MAKE MAGIC</span>
+                </button>
+            </footer>
         </div>
     </main>
 
-    <footer class="footer">
-        <p class="footer__copyright" data-i18n="footer">© 2026 Owen Yaku Pers. All Rights Reserved.</p>
-    </footer>
-
+    <!-- ============ SCRIPTS ============ -->
     <script src="script.js"></script>
 </body>
 </html>
