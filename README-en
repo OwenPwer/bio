@@ -1,0 +1,14 @@
+# Bio
+
+Source code repository for a single-page personal website.  
+A demo version is available at [vercel](https://bio-gamma-tawny.vercel.app)/[git-pages](https://owenpwer.github.io/bio/)
+
+## Page Content
+The site displays:
+- an avatar
+- a name and a brief description of professional activity
+- a set of links to external profiles
+
+## Technologies Used
+[Tailwind CSS](https://tailwindcss.com) — utility-first CSS framework
+[Vercel](https://vercel.com) — hosting and automatic deployment from the `main` branch
