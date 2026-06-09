@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const translations = {
         en: {
-            about: "I'm 15. I get along with people easily - I'm friendly and try to be kind. But I'm also pretty hard on myself. It would be nice to create a successful business.",
+            about: "I'm 16. I get along with people easily - I'm friendly and try to be kind. But I'm also pretty hard on myself. It would be nice to create a successful business.",
             footer: "© 2026 Owen Yaku Pers"
         }
     };
