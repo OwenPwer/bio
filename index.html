@@ -1,94 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owen Yaku Pers | Bio</title>
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Подключение стилей -->
     <link rel="stylesheet" href="style.css">
+    <!-- Иконки Font Awesome для логотипов и стрелочек -->
+    <link rel="stylesheet" href="https://cloudflare.com">
 </head>
 <body>
 
-    <!-- Интерактивный холст созвездий -->
+    <!-- Задний фон с созвездиями -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Автоматический Cloudflare Turnstile -->
-    <div id="bot-challenge" class="challenge-overlay hidden-cf">
+    <!-- СТАДИЯ 1: КАСТОМНЫЙ ПРЕЛОАДЕР -->
+    <div id="site-preloader" class="preloader-overlay">
+        <div class="preloader-content">
+            <div class="preloader-ring"></div>
+            <div class="preloader-text">LOADING</div>
+        </div>
+    </div>
+
+    <!-- СТАДИЯ 2: ИМИТАЦИЯ ЭКРАНА CLOUDFLARE -->
+    <div id="bot-challenge" class="challenge-overlay">
         <div class="challenge-box">
-            <div class="cf-icon"><i class="fa-brands fa-cloudflare animate-pulse-slow"></i></div>
-            <h2 class="cf-title">Checking if the site connection is secure</h2>
+            <i class="fa-brands fa-cloudflare cf-icon"></i>
+            <h1 class="cf-title">Checking if the site connection is secure</h1>
             <p class="cf-subtitle">owenyakupers.lol needs to review the security of your connection before proceeding.</p>
+            
             <div class="captcha-container">
                 <div class="captcha-left">
-                    <div class="custom-checkbox" id="cf-checkbox">
+                    <div id="cf-checkbox" class="custom-checkbox">
                         <div class="spinner"></div>
                         <i class="fa-solid fa-check check-icon"></i>
                     </div>
-                    <span class="captcha-text" id="cf-text">Verifying your browser...</span>
+                    <!-- ТОТ САМЫЙ ID, ИЗ-ЗА КОТОРОГО ВСЁ ЗАВИСАЛО -->
+                    <span id="cf-text" class="captcha-text">Verifying your browser...</span>
                 </div>
                 <div class="cf-logo-sub">
-                    <i class="fa-solid fa-shield-halved"></i>
+                    <i class="fa-brands fa-cloudflare"></i>
                     <span>Turnstile</span>
                 </div>
             </div>
+            
             <p class="cf-footer-text">Performance & security by Cloudflare</p>
         </div>
     </div>
 
-    <!-- Основной контент сайта -->
+    <!-- ГЛАВНЫЙ КОНТЕНТ (Изначально скрыт через класс hidden) -->
     <div id="main-content" class="content-wrapper hidden">
-        <main class="profile-container">
+        <div class="profile-container">
             <article class="mimi-card">
                 
-                <header class="profile-header">
-                    <div class="avatar-block">
-                        <img src="avatar.jpg" alt="Mimi" class="profile-avatar">
-                        <div class="discord-badge" id="status-badge">
-                            <span class="status-dot offline"></span>
-                            <span class="status-text">LOADING</span>
-                        </div>
+                <!-- Аватар и статус Discord -->
+                <div class="avatar-block">
+                    <img src="avatar.jpg" alt="Mimi" class="profile-avatar">
+                    <div id="status-badge" class="discord-badge">
+                        <span class="status-dot offline"></span>
+                        <span class="status-text">LOADING</span>
                     </div>
-                    <h1 class="username">Owen Yaku Pers</h1>
-                    <p class="role-text">Frontend Developer / Creator</p>
-                </header>
+                </div>
 
-                <!-- Цитата вынесена отдельно -->
+                <!-- Информация о пользователе -->
+                <h2 class="username">Owen Yaku Pers</h2>
+                <p class="role-text">Frontend Developer / Creator</p>
+
+                <!-- Цитата -->
                 <blockquote class="mimi-blockquote">
-                    <i class="fa-solid fa-quote-left quote-decor"></i>
-                    <p class="quote-text">Next time you make a decision please speak with me. I am here as well.</p>
+                    <i class="fa-solid fa-quote-right quote-decor"></i>
+                    <p class="quote-text">"Next time you make a decision please speak with me. I am here as well."</p>
                 </blockquote>
 
-                <!-- Навигация вкладок -->
+                <!-- Переключатель вкладок (Табы) -->
                 <nav class="tabs-nav">
                     <button class="tab-trigger active" data-tab="links">
                         <i class="fa-solid fa-link"></i> Links
                     </button>
-                    <button class="tab-trigger" data-tab="about">
+                    <button class="tab-trigger" data-tab="tech">
                         <i class="fa-solid fa-code"></i> Tech Stack
                     </button>
                 </nav>
 
-                <!-- Контент вкладок -->
+                <!-- Содержимое вкладок -->
                 <div class="tabs-content">
                     
-                    <!-- Вкладка: Ссылки -->
-                    <div class="tab-pane active" id="tab-links">
+                    <!-- Вкладка 1: Ссылки (Активна по умолчанию) -->
+                    <div id="tab-links" class="tab-pane active">
                         <div class="links-vertical">
-                            <a href="https://instagram.com" target="_blank" rel="noopener" class="mimi-link">
+                            <a href="https://instagram.com" target="_blank" class="mimi-link">
                                 <i class="fa-brands fa-instagram brand-icon"></i>
                                 <span>Instagram</span>
-                                <i class="fa-solid fa-arrow-right-long arrow"></i>
+                                <i class="fa-solid fa-chevron-right arrow"></i>
                             </a>
-                            <a href="https://github.com" target="_blank" rel="noopener" class="mimi-link">
+                            <a href="https://github.com" target="_blank" class="mimi-link">
                                 <i class="fa-brands fa-github brand-icon"></i>
                                 <span>GitHub</span>
-                                <i class="fa-solid fa-arrow-right-long arrow"></i>
+                                <i class="fa-solid fa-chevron-right arrow"></i>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Вкладка: Технологии -->
-                    <div class="tab-pane" id="tab-about">
+                    <!-- Вкладка 2: Технологии -->
+                    <div id="tab-tech" class="tab-pane">
                         <div class="skills-wrapper">
                             <div class="skills-grid">
                                 <span class="skill-tag"><i class="fa-brands fa-html5"></i> HTML5</span>
@@ -101,15 +115,17 @@
 
                 </div>
 
+                <!-- Подвал карточки -->
                 <footer class="card-footer">
-                    <p class="copy-text">© 2026 Owen Yaku Pers</p>
-                    <div class="footer-decor"><i class="fa-solid fa-bell bell-icon"></i></div>
+                    <span class="copy-text">© 2026 Owen Yaku Pers</span>
+                    <i class="fa-solid fa-heart footer-decor animate-pulse-slow"></i>
                 </footer>
 
             </article>
-        </main>
+        </div>
     </div>
 
+    <!-- Подключение скрипта логики -->
     <script src="script.js"></script>
 </body>
 </html>
