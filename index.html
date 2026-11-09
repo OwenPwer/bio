@@ -1,76 +1,115 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owen Yaku Pers</title>
-    <!-- Подключаем Tailwind CSS и шрифты -->
-    <script src="https://tailwindcss.com"></script>
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        space: ['Space Grotesk', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <title>Owen Yaku Pers | Bio</title>
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-[#0A0A0A] text-gray-100 font-sans min-h-full flex items-center justify-center p-4 selection:bg-red-600 selection:text-white">
+<body>
 
-    <!-- Фоновые частицы (Анимация через Tailwind) -->
-    <div id="particles" class="fixed inset-0 pointer-events-none z-0 opacity-40"></div>
+    <!-- Интерактивный холст созвездий -->
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- Основной контейнер-карточка -->
-    <main class="w-full max-w-md bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl shadow-2xl overflow-hidden z-10 transition-all duration-300 hover:border-red-900/50">
-        
-        <!-- Секция Профиля -->
-        <section class="flex flex-col items-center pt-10 px-8 pb-6 text-center">
-            <!-- Аватар и статус-бейдж -->
-            <div class="relative w-44 h-44 mb-6">
-                <img src="avatar.jpg" alt="Owen Yaku Pers" class="w-full h-full object-cover rounded-2xl border-2 border-red-600 shadow-md">
-                <div id="status-badge" class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-black border border-zinc-800 px-4 py-1 rounded-full flex items-center gap-2 text-xs font-semibold tracking-wider whitespace-nowrap shadow-xl">
-                    <span class="w-2.5 h-2.5 bg-zinc-500 rounded-full"></span>
-                    <span class="text-zinc-400">LOADING</span>
+    <!-- Автоматический Cloudflare Turnstile -->
+    <div id="bot-challenge" class="challenge-overlay hidden-cf">
+        <div class="challenge-box">
+            <div class="cf-icon"><i class="fa-brands fa-cloudflare animate-pulse-slow"></i></div>
+            <h2 class="cf-title">Checking if the site connection is secure</h2>
+            <p class="cf-subtitle">owenyakupers.lol needs to review the security of your connection before proceeding.</p>
+            <div class="captcha-container">
+                <div class="captcha-left">
+                    <div class="custom-checkbox" id="cf-checkbox">
+                        <div class="spinner"></div>
+                        <i class="fa-solid fa-check check-icon"></i>
+                    </div>
+                    <span class="captcha-text" id="cf-text">Verifying your browser...</span>
+                </div>
+                <div class="cf-logo-sub">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Turnstile</span>
                 </div>
             </div>
+            <p class="cf-footer-text">Performance & security by Cloudflare</p>
+        </div>
+    </div>
 
-            <!-- Имя и Род деятельности -->
-            <h1 class="font-space text-3xl font-bold tracking-tight text-white mb-1">Owen Yaku Pers</h1>
-            <p class="text-amber-400 font-medium text-sm tracking-wide uppercase">Frontend Developer / Creator</p>
-        </section>
+    <!-- Основной контент сайта -->
+    <div id="main-content" class="content-wrapper hidden">
+        <main class="profile-container">
+            <article class="mimi-card">
+                
+                <header class="profile-header">
+                    <div class="avatar-block">
+                        <img src="avatar.jpg" alt="Mimi" class="profile-avatar">
+                        <div class="discord-badge" id="status-badge">
+                            <span class="status-dot offline"></span>
+                            <span class="status-text">LOADING</span>
+                        </div>
+                    </div>
+                    <h1 class="username">Owen Yaku Pers</h1>
+                    <p class="role-text">Frontend Developer / Creator</p>
+                </header>
 
-        <!-- Описание -->
-        <section class="px-8 pb-6">
-            <p id="about-text" class="text-zinc-400 text-sm leading-relaxed text-center sm:text-justify"></p>
-        </section>
+                <!-- Цитата вынесена отдельно -->
+                <blockquote class="mimi-blockquote">
+                    <i class="fa-solid fa-quote-left quote-decor"></i>
+                    <p class="quote-text">Next time you make a decision please speak with me. I am here as well.</p>
+                </blockquote>
 
-        <!-- Социальные ссылки -->
-        <section class="px-8 pb-8">
-            <h2 class="text-center text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase mb-4">Stay Connected</h2>
-            <div class="grid grid-cols-2 gap-3">
-                <a href="https://instagram.com" target="_blank" rel="noopener" class="flex items-center gap-3 bg-zinc-800/40 border border-zinc-800/80 p-3.5 rounded-xl text-sm font-medium hover:bg-zinc-800 hover:border-amber-500/30 transition-all duration-200 hover:-translate-y-0.5">
-                    <span class="text-xl">📸</span> Instagram
-                </a>
-                <a href="https://github.com" target="_blank" rel="noopener" class="flex items-center gap-3 bg-zinc-800/40 border border-zinc-800/80 p-3.5 rounded-xl text-sm font-medium hover:bg-zinc-800 hover:border-amber-500/30 transition-all duration-200 hover:-translate-y-0.5">
-                    <span class="text-xl">💻</span> GitHub
-                </a>
-            </div>
-        </section>
+                <!-- Навигация вкладок -->
+                <nav class="tabs-nav">
+                    <button class="tab-trigger active" data-tab="links">
+                        <i class="fa-solid fa-link"></i> Links
+                    </button>
+                    <button class="tab-trigger" data-tab="about">
+                        <i class="fa-solid fa-code"></i> Tech Stack
+                    </button>
+                </nav>
 
-        <!-- Футер -->
-        <footer class="bg-black/40 border-t border-zinc-800/60 px-8 py-4 flex justify-between items-center text-xs text-zinc-500">
-            <span id="footer-text"></span>
-            <a href="privacy.html" class="hover:text-amber-400 transition-colors duration-200">Privacy Policy</a>
-        </footer>
-    </main>
+                <!-- Контент вкладок -->
+                <div class="tabs-content">
+                    
+                    <!-- Вкладка: Ссылки -->
+                    <div class="tab-pane active" id="tab-links">
+                        <div class="links-vertical">
+                            <a href="https://instagram.com" target="_blank" rel="noopener" class="mimi-link">
+                                <i class="fa-brands fa-instagram brand-icon"></i>
+                                <span>Instagram</span>
+                                <i class="fa-solid fa-arrow-right-long arrow"></i>
+                            </a>
+                            <a href="https://github.com" target="_blank" rel="noopener" class="mimi-link">
+                                <i class="fa-brands fa-github brand-icon"></i>
+                                <span>GitHub</span>
+                                <i class="fa-solid fa-arrow-right-long arrow"></i>
+                            </a>
+                        </div>
+                    </div>
 
-    <script src="app.js"></script>
+                    <!-- Вкладка: Технологии -->
+                    <div class="tab-pane" id="tab-about">
+                        <div class="skills-wrapper">
+                            <div class="skills-grid">
+                                <span class="skill-tag"><i class="fa-brands fa-html5"></i> HTML5</span>
+                                <span class="skill-tag"><i class="fa-brands fa-css3-alt"></i> CSS3</span>
+                                <span class="skill-tag"><i class="fa-brands fa-js"></i> JavaScript</span>
+                                <span class="skill-tag"><i class="fa-brands fa-react"></i> React</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <footer class="card-footer">
+                    <p class="copy-text">© 2026 Owen Yaku Pers</p>
+                    <div class="footer-decor"><i class="fa-solid fa-bell bell-icon"></i></div>
+                </footer>
+
+            </article>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
