@@ -1,85 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="img/icons/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
     <title>Owen Yaku Pers</title>
+    <!-- Подключаем Tailwind CSS и шрифты -->
+    <script src="https://tailwindcss.com"></script>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        space: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
+<body class="bg-[#0A0A0A] text-gray-100 font-sans min-h-full flex items-center justify-center p-4 selection:bg-red-600 selection:text-white">
 
-    <!-- ============ LOADER ============ -->
-    <div id="loader" class="loader">
-        <div class="loader__content">
-            <div class="title-font text-3xl tracking-widest">OWEN YAKU PERS</div>
-            <div class="loader__line"></div>
-            <p class="loader__text">INITIALIZING</p>
-        </div>
-    </div>
+    <!-- Фоновые частицы (Анимация через Tailwind) -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0 opacity-40"></div>
 
-    <!-- ============ PARTICLES BACKGROUND ============ -->
-    <div class="particles" id="particles"></div>
-
-    <!-- ============ MAIN CARD CONTAINER ============ -->
-    <main class="main">
-        <div id="main-card" class="card">
-            
-            <!-- ============ HERO SECTION (AVATAR & STATUS) ============ -->
-            <div class="card__hero">
-                <div class="avatar-wrapper">
-                    <img src="img/icons/avatar.jpg" alt="Owen Yaku Pers" class="avatar">
-                    <div id="status-badge" class="status-badge"></div>
-                </div>
-                <h1 class="card__name">Owen Yaku Pers</h1>
-                <p class="card__subtitle">16 • ESFJ </p>
-            </div>
-
-            <!-- ============ ABOUT SECTION ============ -->
-            <div class="card__about">
-                <p id="about-text" class="about-text"></p>
-            </div>
-
-            <!-- ============ SOCIAL LINKS SECTION ============ -->
-            <div class="card__social">
-                <div class="section-title">STAY CONNECTED</div>
-                <div class="social-grid">
-                    <a href="https://www.instagram.com/owen.pers/" target="_blank" class="social-tile">
-                        <i class="fa-brands fa-instagram"></i>
-                        <div>
-                            <div class="social-tile__name">owen.pers</div>
-                            <div class="social-tile__platform"></div>
-                        </div>
-                    </a>
-                    <a href="https://discord.com/users/971809780475756584" target="_blank" class="social-tile">
-                        <i class="fa-brands fa-discord"></i>
-                        <div>
-                            <div class="social-tile__name">o.pers</div>
-                            <div class="social-tile__platform"></div>
-                        </div>
-                    </a>
+    <!-- Основной контейнер-карточка -->
+    <main class="w-full max-w-md bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl shadow-2xl overflow-hidden z-10 transition-all duration-300 hover:border-red-900/50">
+        
+        <!-- Секция Профиля -->
+        <section class="flex flex-col items-center pt-10 px-8 pb-6 text-center">
+            <!-- Аватар и статус-бейдж -->
+            <div class="relative w-44 h-44 mb-6">
+                <img src="avatar.jpg" alt="Owen Yaku Pers" class="w-full h-full object-cover rounded-2xl border-2 border-red-600 shadow-md">
+                <div id="status-badge" class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-black border border-zinc-800 px-4 py-1 rounded-full flex items-center gap-2 text-xs font-semibold tracking-wider whitespace-nowrap shadow-xl">
+                    <span class="w-2.5 h-2.5 bg-zinc-500 rounded-full"></span>
+                    <span class="text-zinc-400">LOADING</span>
                 </div>
             </div>
 
-            <!-- ============ FOOTER SECTION ============ -->
-            <footer class="card__footer">
-                <div class="footer__left">
-                    <span id="footer-text" class="footer__copyright"></span>
-                    <span class="footer__separator">•</span>
-                    <a href="privacy.html" class="footer__link">Privacy</a>
-                </div>
-                <button id="magic-btn" class="magic-button">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    <span>MAKE MAGIC</span>
-                </button>
-            </footer>
-        </div>
+            <!-- Имя и Род деятельности -->
+            <h1 class="font-space text-3xl font-bold tracking-tight text-white mb-1">Owen Yaku Pers</h1>
+            <p class="text-amber-400 font-medium text-sm tracking-wide uppercase">Frontend Developer / Creator</p>
+        </section>
+
+        <!-- Описание -->
+        <section class="px-8 pb-6">
+            <p id="about-text" class="text-zinc-400 text-sm leading-relaxed text-center sm:text-justify"></p>
+        </section>
+
+        <!-- Социальные ссылки -->
+        <section class="px-8 pb-8">
+            <h2 class="text-center text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase mb-4">Stay Connected</h2>
+            <div class="grid grid-cols-2 gap-3">
+                <a href="https://instagram.com" target="_blank" rel="noopener" class="flex items-center gap-3 bg-zinc-800/40 border border-zinc-800/80 p-3.5 rounded-xl text-sm font-medium hover:bg-zinc-800 hover:border-amber-500/30 transition-all duration-200 hover:-translate-y-0.5">
+                    <span class="text-xl">📸</span> Instagram
+                </a>
+                <a href="https://github.com" target="_blank" rel="noopener" class="flex items-center gap-3 bg-zinc-800/40 border border-zinc-800/80 p-3.5 rounded-xl text-sm font-medium hover:bg-zinc-800 hover:border-amber-500/30 transition-all duration-200 hover:-translate-y-0.5">
+                    <span class="text-xl">💻</span> GitHub
+                </a>
+            </div>
+        </section>
+
+        <!-- Футер -->
+        <footer class="bg-black/40 border-t border-zinc-800/60 px-8 py-4 flex justify-between items-center text-xs text-zinc-500">
+            <span id="footer-text"></span>
+            <a href="privacy.html" class="hover:text-amber-400 transition-colors duration-200">Privacy Policy</a>
+        </footer>
     </main>
 
-    <!-- ============ SCRIPTS ============ -->
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
