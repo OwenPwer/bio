@@ -7,8 +7,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  base: '/bio/',
   resolve: {
-    // Принудительно используем одну копию React
     dedupe: ['react', 'react-dom'],
   },
 })
