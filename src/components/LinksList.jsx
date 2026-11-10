@@ -1,9 +1,9 @@
 import { ArrowRight } from 'lucide-react';
-import { GithubIcon, InstagramIcon } from './Icons';
+import { SiDiscord, SiGithub } from 'react-icons/si';
 
 const LINKS = [
-  { label: 'Instagram', href: 'https://instagram.com/', Icon: InstagramIcon },
-  { label: 'GitHub', href: 'https://github.com/', Icon: GithubIcon },
+  { label: 'Discord', href: 'https://discord.com/users/971809780475756584', Icon: SiDiscord },
+  { label: 'GitHub', href: 'https://github.com/OwenPwer', Icon: SiGithub },
 ];
 
 export function LinksList() {

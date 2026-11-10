@@ -3,6 +3,8 @@ import { useConstellation } from '../hooks/useConstellation';
 
 export function ConstellationCanvas() {
   const canvasRef = useRef(null);
+  
+  // Передаем ref в наш кастомный хук с логикой рендеринга
   useConstellation(canvasRef);
 
   return (

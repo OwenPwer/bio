@@ -1,15 +1,6 @@
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
 
-/**
- * Полный WAI-ARIA Tabs pattern:
- * - role="tablist" / role="tab" с aria-controls + aria-selected
- * - roving tabindex: активный таб tabIndex=0, остальные -1
- * - Left/Right/Up/Down — переключение, Home/End — крайние
- * - автоматическая активация при перемещении фокуса
- *
- * tabs: [{ id: string, label: string }]
- */
 export function Tabs({ tabs, activeTab, onChange }) {
   const buttonsRef = useRef([]);
 
