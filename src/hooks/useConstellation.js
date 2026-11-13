@@ -45,20 +45,29 @@ export function useConstellation(canvasRef) {
     }
 
     function initParticles() {
-      const count = Math.min(120, Math.floor((width * height) / 18000));
+      const isMobile = width < 768;
+      const isLowPower = (navigator.hardwareConcurrency || 4) <= 4;
+      const divisor = isMobile ? 25000 : 18000;
+      const baseMax = isMobile ? 60 : 120;
+      const maxParticles = isLowPower ? Math.floor(baseMax / 2) : baseMax;
+      const count = Math.min(maxParticles, Math.floor((width * height) / divisor));
       particles = Array.from({ length: count }, () => new ConstellationParticle());
     }
 
     function drawLines() {
       const maxDistance = 115;
+      const maxDistanceSq = maxDistance * maxDistance;
+      const mouseMaxDistance = 160;
+      const mouseMaxDistanceSq = mouseMaxDistance * mouseMaxDistance;
 
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.hypot(dx, dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < maxDistance) {
+          if (distSq < maxDistanceSq) {
+            const dist = Math.sqrt(distSq);
             const alpha = (1 - dist / maxDistance) * 0.08;
             ctx.strokeStyle = `rgba(245, 158, 11, ${alpha})`;
             ctx.lineWidth = 0.5;
@@ -72,11 +81,11 @@ export function useConstellation(canvasRef) {
         if (mouse.x !== null && mouse.y !== null) {
           const mDx = particles[i].x - mouse.x;
           const mDy = particles[i].y - mouse.y;
-          const mDist = Math.hypot(mDx, mDy);
-          const mouseMaxDist = 160;
+          const mDistSq = mDx * mDx + mDy * mDy;
 
-          if (mDist < mouseMaxDist) {
-            const mAlpha = (1 - mDist / mouseMaxDist) * 0.12;
+          if (mDistSq < mouseMaxDistanceSq) {
+            const mDist = Math.sqrt(mDistSq);
+            const mAlpha = (1 - mDist / mouseMaxDistance) * 0.12;
             ctx.strokeStyle = `rgba(245, 158, 11, ${mAlpha})`;
             ctx.lineWidth = 0.6;
             ctx.beginPath();
@@ -100,7 +109,7 @@ export function useConstellation(canvasRef) {
     function resizeCanvas() {
       width = window.innerWidth;
       height = window.innerHeight;
-      currentDpr = window.devicePixelRatio || 1;
+      currentDpr = Math.min(window.devicePixelRatio || 1, 2);
 
       canvas.width = width * currentDpr;
       canvas.height = height * currentDpr;
