@@ -10,7 +10,6 @@ vi.mock('framer-motion', () => {
     {},
     {
       get: (_target, tag) => {
-        // Для каждого тега (div, h1, ...) возвращаем простой компонент
         const Component = ({ children, ...props }) => {
           const {
             initial, animate, exit, transition, variants,
@@ -37,7 +36,7 @@ vi.mock('framer-motion', () => {
 class MockWebSocket {
   constructor(url) {
     this.url = url;
-    this.readyState = 0; // CONNECTING
+    this.readyState = 0;
     this.send = vi.fn();
     this.close = vi.fn();
     this.onopen = null;
@@ -65,7 +64,6 @@ beforeEach(() => {
     dispatchEvent: vi.fn(),
   }));
 
-  // Canvas в happy-dom нет — глушим getContext
   vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null);
 });
 
@@ -79,6 +77,11 @@ afterEach(() => {
 /*  Тесты                                                             */
 /* ------------------------------------------------------------------ */
 describe('App с заданным DISCORD_USER_ID', () => {
+  beforeEach(() => {
+    vi.resetModules();
+    vi.doMock('../config.js', () => ({ DISCORD_USER_ID: '123456789012345678' }));
+  });
+
   it('renders name and tabs', async () => {
     const { default: App } = await import('../App');
     render(<App />);
