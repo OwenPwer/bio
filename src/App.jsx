@@ -4,8 +4,8 @@ import { ArrowRight } from 'lucide-react';
 import { SiDiscord, SiGithub, SiTailwindcss, SiVite } from 'react-icons/si';
 import { FaHtml5, FaCss3Alt, FaJs, FaReact } from 'react-icons/fa';
 import avatarImg from './assets/mimi.jpg';
-
-const DISCORD_USER_ID = '971809780475756584';
+import { DISCORD_USER_ID } from './config.js';
+import { useLanyard } from './hooks/useLanyard';
 
 /* ------------------------------------------------------------------ */
 /*  Константы                                                         */
@@ -18,7 +18,13 @@ const STATUS_CONFIG = {
 };
 
 const LINKS = [
-  { label: 'o.pers', href: 'https://discord.com/users/971809780475756584', Icon: SiDiscord },
+  {
+    label: 'o.pers',
+    href: DISCORD_USER_ID
+      ? `https://discord.com/users/${DISCORD_USER_ID}`
+      : 'https://discord.com',
+    Icon: SiDiscord,
+  },
   { label: 'OwenPwer', href: 'https://github.com/OwenPwer', Icon: SiGithub },
 ];
 
@@ -37,72 +43,8 @@ const TABS = [
 ];
 
 /* ------------------------------------------------------------------ */
-/*  Хуки (Discord и Canvas)                                           */
+/*  Canvas                                                            */
 /* ------------------------------------------------------------------ */
-function useLanyard(userId) {
-  const [presence, setPresence] = useState(null);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    if (!userId) return;
-    let heartbeatInterval = null;
-    let cancelled = false;
-    let socket = null;
-
-    const timeoutId = setTimeout(() => {
-      if (cancelled) return;
-      socket = new WebSocket('wss://api.lanyard.rest/socket');
-
-      socket.onmessage = (event) => {
-        let msg;
-        try {
-          msg = JSON.parse(event.data);
-        } catch (err) {
-          console.warn('Lanyard: failed to parse message', err);
-          return;
-        }
-        const { op, t, d } = msg;
-
-        if (op === 1) {
-          clearInterval(heartbeatInterval);
-          heartbeatInterval = setInterval(() => {
-            if (socket.readyState === WebSocket.OPEN) {
-              socket.send(JSON.stringify({ op: 3 }));
-            }
-          }, d.heartbeat_interval);
-          socket.send(JSON.stringify({ op: 2, d: { subscribe_to_id: userId } }));
-        }
-
-        if (op === 0 && (t === 'INIT_STATE' || t === 'PRESENCE_UPDATE')) {
-          setPresence(d);
-          setError(false);
-        }
-      };
-
-      socket.onerror = (err) => {
-        console.error('Lanyard WebSocket Error:', err);
-        if (!cancelled) setError(true);
-      };
-
-      socket.onclose = () => {
-        clearInterval(heartbeatInterval);
-        heartbeatInterval = null;
-      };
-    }, 0);
-
-    return () => {
-      cancelled = true;
-      clearTimeout(timeoutId);
-      clearInterval(heartbeatInterval);
-      if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
-        socket.close();
-      }
-    };
-  }, [userId]);
-
-  return { presence, error };
-}
-
 function useConstellation(canvasRef) {
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -239,6 +181,7 @@ function useConstellation(canvasRef) {
       }
     };
     const handleLeave = () => { mouse.x = null; mouse.y = null; };
+    const handleMouseOut = (e) => { if (!e.relatedTarget) handleLeave(); };
     const handleResize = () => {
       if (resizeRafId !== null) return;
       resizeRafId = requestAnimationFrame(() => {
@@ -256,7 +199,7 @@ function useConstellation(canvasRef) {
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('touchend', handleLeave);
-    window.addEventListener('mouseout', (e) => { if (!e.relatedTarget) handleLeave(); });
+    window.addEventListener('mouseout', handleMouseOut);
     window.addEventListener('blur', handleLeave);
     document.addEventListener('visibilitychange', handleVisibility);
 
@@ -268,6 +211,7 @@ function useConstellation(canvasRef) {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleLeave);
+      window.removeEventListener('mouseout', handleMouseOut);
       window.removeEventListener('blur', handleLeave);
       document.removeEventListener('visibilitychange', handleVisibility);
       if (resizeRafId !== null) cancelAnimationFrame(resizeRafId);
@@ -279,12 +223,13 @@ function useConstellation(canvasRef) {
 /* ------------------------------------------------------------------ */
 /*  Компоненты                                                        */
 /* ------------------------------------------------------------------ */
-function StatusBadge({ status }) {
+function StatusBadge({ status, hasError }) {
   const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.offline;
   return (
     <div
       role="status"
       aria-atomic="true"
+      title={hasError ? 'Не удалось загрузить статус Discord' : undefined}
       className="absolute bottom-0.5 right-0.5 bg-zinc-950 border border-amber-500/10 px-2 py-0.5 rounded-full flex items-center gap-1 shadow-lg"
     >
       <span aria-hidden="true" className={`w-1.5 h-1.5 rounded-full ${cfg.color}`} />
@@ -295,7 +240,7 @@ function StatusBadge({ status }) {
   );
 }
 
-function Avatar({ status, isLandscape }) {
+function Avatar({ status, isLandscape, hasError }) {
   return (
     <motion.div
       layout
@@ -304,7 +249,7 @@ function Avatar({ status, isLandscape }) {
       <div className="w-full h-full rounded-full bg-zinc-900 border border-white/[0.08] transition-[border-color,box-shadow] duration-500 group-hover:shadow-[0_0_30px_6px_rgba(245,158,11,0.25)] group-hover:border-amber-500/60 overflow-hidden">
         <img src={avatarImg} alt="Owen Yaku Pers" className="w-full h-full object-cover select-none" draggable="false" />
       </div>
-      <StatusBadge status={status} />
+      <StatusBadge status={status} hasError={hasError} />
     </motion.div>
   );
 }
@@ -360,11 +305,12 @@ function Tabs({ activeTab, onChange }) {
 export default function App() {
   const [activeTab, setActiveTab] = useState('links');
   const [isLandscape, setIsLandscape] = useState(false);
-  const { presence } = useLanyard(DISCORD_USER_ID);
+  const { presence, error } = useLanyard(DISCORD_USER_ID);
   const canvasRef = useRef(null);
-  
+
   useConstellation(canvasRef);
   const status = presence?.discord_status ?? 'offline';
+  const showIdWarning = !DISCORD_USER_ID;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(orientation: landscape) and (max-height: 600px)');
@@ -387,13 +333,22 @@ export default function App() {
         style={{ transformStyle: 'preserve-3d' }}
       >
         <div className={`relative bg-zinc-950/85 border border-amber-500/[0.08] rounded-[24px] sm:rounded-[28px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.85)] group flex overflow-hidden transition-[border-color,box-shadow] duration-500 hover:border-amber-500/[0.15] ${isLandscape ? 'p-6 text-left flex-row items-stretch gap-8' : 'p-6 pt-10 sm:p-8 sm:pt-12 text-center flex-col gap-6 sm:gap-8'}`}>
-          
+
+          {showIdWarning && (
+            <div
+              role="alert"
+              className="absolute top-0 left-0 right-0 bg-amber-500/15 border-b border-amber-500/25 text-amber-300 text-[10px] sm:text-[11px] py-1.5 px-3 text-center z-20 font-medium tracking-wide"
+            >
+              Set <code className="font-mono">VITE_DISCORD_USER_ID</code> in <code className="font-mono">.env</code> to show Discord status
+            </div>
+          )}
+
           <motion.div
             layout="position"
             className={`flex flex-col items-center shrink-0 border-white/[0.04] ${isLandscape ? 'justify-center w-[240px] border-b-0 border-r pb-0 pr-8' : 'w-full border-b pb-4'}`}
             transition={{ type: 'spring', stiffness: 200, damping: 28 }}
           >
-            <Avatar status={status} isLandscape={isLandscape} />
+            <Avatar status={status} isLandscape={isLandscape} hasError={error} />
 
             <motion.h1 layout className={`font-semibold text-white mb-1 relative inline-block tracking-tight text-center transition-colors duration-300 ${isLandscape ? 'text-xl' : 'text-xl sm:text-2xl'}`}>
               Owen Yaku Pers
@@ -438,27 +393,27 @@ export default function App() {
                   </motion.div>
                 ) : (
                   <motion.div
-  key="skills" role="tabpanel" id="panel-skills" aria-labelledby="tab-skills" tabIndex={0}
-  initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -15 }} transition={{ duration: 0.2, ease: 'easeOut' }}
-  className="flex flex-col justify-center h-full gap-2 w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-lg"
->
-  <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-1 text-center landscape:text-left font-semibold">
-    Technologies I use
-  </p>
-  <div className={`grid grid-cols-2 gap-2 w-full ${isLandscape ? 'max-w-[400px]' : ''}`}>
-    {SKILLS.map(({ name, Icon, color }) => (
-      <div 
-        key={name} 
-        className="group/skill flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-amber-500/30 hover:bg-white/[0.04] transition-colors duration-300"
-      >
-        <Icon className={`w-4 h-4 shrink-0 ${color} transition-transform duration-300 group-hover/skill:scale-110`} />
-        <span className="text-xs font-medium text-zinc-300 group-hover/skill:text-white transition-colors">
-          {name}
-        </span>
-      </div>
-    ))}
-  </div>
-</motion.div>
+                    key="skills" role="tabpanel" id="panel-skills" aria-labelledby="tab-skills" tabIndex={0}
+                    initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -15 }} transition={{ duration: 0.2, ease: 'easeOut' }}
+                    className="flex flex-col justify-center h-full gap-2 w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-lg"
+                  >
+                    <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-1 text-center landscape:text-left font-semibold">
+                      Technologies I use
+                    </p>
+                    <div className={`grid grid-cols-2 gap-2 w-full ${isLandscape ? 'max-w-[400px]' : ''}`}>
+                      {SKILLS.map(({ name, Icon, color }) => (
+                        <div
+                          key={name}
+                          className="group/skill flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-amber-500/30 hover:bg-white/[0.04] transition-colors duration-300"
+                        >
+                          <Icon className={`w-4 h-4 shrink-0 ${color} transition-transform duration-300 group-hover/skill:scale-110`} />
+                          <span className="text-xs font-medium text-zinc-300 group-hover/skill:text-white transition-colors">
+                            {name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
