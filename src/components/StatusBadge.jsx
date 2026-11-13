@@ -5,19 +5,19 @@ const STATUS_CONFIG = {
   offline:{ color: 'bg-zinc-500',                                            text: 'OFFLINE' },
 };
 
-export function StatusBadge({ status }) {
+export function StatusBadge({ status, hasError }) {
   const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.offline;
 
   return (
     <div
       role="status"
       aria-atomic="true"
-      className="absolute bottom-0.5 right-0.5 bg-zinc-950 border border-amber-500/10 px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-lg"
+      title={hasError ? 'Не удалось загрузить статус Discord' : undefined}
+      className="absolute bottom-0.5 right-0.5 bg-zinc-950 border border-amber-500/10 px-2 py-0.5 rounded-full flex items-center gap-1 shadow-lg"
     >
       <span aria-hidden="true" className={`w-1.5 h-1.5 rounded-full ${cfg.color}`} />
-      <span className="text-[9px] font-bold text-zinc-400 tracking-wider">
-        <span className="sr-only">Discord status: </span>
-        {cfg.text}
+      <span className="text-[8px] font-bold text-zinc-400 tracking-wider">
+        <span className="sr-only">Discord status: </span>{cfg.text}
       </span>
     </div>
   );

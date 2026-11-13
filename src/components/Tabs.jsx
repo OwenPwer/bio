@@ -16,22 +16,14 @@ export function Tabs({ tabs, activeTab, onChange }) {
     switch (e.key) {
       case 'ArrowRight':
       case 'ArrowDown':
-        e.preventDefault();
-        focusTab(index + 1);
-        break;
+        e.preventDefault(); focusTab(index + 1); break;
       case 'ArrowLeft':
       case 'ArrowUp':
-        e.preventDefault();
-        focusTab(index - 1);
-        break;
+        e.preventDefault(); focusTab(index - 1); break;
       case 'Home':
-        e.preventDefault();
-        focusTab(0);
-        break;
+        e.preventDefault(); focusTab(0); break;
       case 'End':
-        e.preventDefault();
-        focusTab(tabs.length - 1);
-        break;
+        e.preventDefault(); focusTab(tabs.length - 1); break;
       default:
         break;
     }
@@ -41,7 +33,7 @@ export function Tabs({ tabs, activeTab, onChange }) {
     <div
       role="tablist"
       aria-label="Profile sections"
-      className="flex bg-white/[0.02] border border-white/[0.04] rounded-xl p-1 mb-6 gap-1"
+      className="flex bg-white/[0.02] border border-white/[0.04] rounded-xl p-1 gap-1"
     >
       {tabs.map((tab, index) => {
         const isActive = activeTab === tab.id;
@@ -57,7 +49,7 @@ export function Tabs({ tabs, activeTab, onChange }) {
             tabIndex={isActive ? 0 : -1}
             onClick={() => onChange(tab.id)}
             onKeyDown={(e) => handleKeyDown(e, index)}
-            className={`flex-1 relative py-2.5 text-xs font-semibold rounded-lg transition-colors duration-300 capitalize cursor-pointer tracking-wider focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 ${
+            className={`flex-1 relative py-2 text-xs font-semibold rounded-lg transition-colors duration-300 capitalize cursor-pointer tracking-wider focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 ${
               isActive ? 'text-amber-500' : 'text-zinc-400 hover:text-white'
             }`}
           >
